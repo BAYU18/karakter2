@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tes Karakter 14 Warna</title>
+
+<style>
+body{
+margin:0;
+font-family:Inter,Segoe UI,sans-serif;
+background:linear-gradient(135deg,#020617,#0f172a);
+color:#e5e7eb;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+.card{
+width:100%;
+max-width:900px;
+background:#020617cc;
+backdrop-filter:blur(14px);
+border-radius:22px;
+padding:28px;
+box-shadow:0 30px 60px #0008;
+}
+.hidden{display:none}
+.option{
+background:#020617aa;
+border:1px solid #1e293b;
+padding:14px;
+border-radius:14px;
+margin:10px 0;
+cursor:pointer;
+transition:.2s;
+}
+.option:hover{
+background:#1e293b;
+transform:translateY(-2px);
+}
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:linear-gradient(135deg,#38bdf8,#6366f1);
+color:#fff;
+font-size:16px;
+cursor:pointer;
+}
+.badge{
+display:inline-block;
+padding:8px 16px;
+border-radius:999px;
+background:#1e293b;
+margin-bottom:10px;
+font-weight:600;
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+
+<div id="start">
+<h1>Tes Karakter – 14 Warna</h1>
+<p>Tes reflektif untuk memahami kecenderungan karakter & pola relasi.</p>
+<button onclick="startTest()">Mulai Tes</button>
+</div>
+
+<div id="quiz" class="hidden">
+<h2 id="question"></h2>
+<div id="options"></div>
+</div>
+
+<div id="result" class="hidden">
+<h2>Hasil Karakter Dominan</h2>
+<div id="summary"></div>
+<button onclick="location.reload()">Ulangi Tes</button>
+</div>
+
+</div>
+
+<script>
+const startDiv=document.getElementById("start");
+const quizDiv=document.getElementById("quiz");
+const resultDiv=document.getElementById("result");
+const questionEl=document.getElementById("question");
+const optionsEl=document.getElementById("options");
+const summaryEl=document.getElementById("summary");
+
+/* WARNA */
+const colors={
+red:{n:"Merah",k:"Berani, tegas",l:"Dominan"},
+yellow:{n:"Kuning",k:"Ceria, komunikatif",l:"Tidak konsisten"},
+blue:{n:"Biru",k:"Logis, setia",l:"Kaku"},
+green:{n:"Hijau",k:"Empatik, sabar",l:"Mengalah"},
+black:{n:"Hitam",k:"Mandiri",l:"Tertutup"},
+white:{n:"Putih",k:"Netral",l:"Naif"},
+orange:{n:"Oranye",k:"Inspiratif",l:"Mudah bosan"},
+purple:{n:"Ungu",k:"Intuitif",l:"Abstrak"},
+pink:{n:"Pink",k:"Penyayang",l:"Bergantung"},
+navy:{n:"Navy",k:"Disiplin",l:"Emosi tertahan"},
+maroon:{n:"Maroon",k:"Loyal",l:"Keras kepala"},
+mustard:{n:"Mustard",k:"Matang",l:"Sinis"},
+lightblue:{n:"Biru Muda",k:"Tenang",l:"Pasif"},
+lightyellow:{n:"Kuning Muda",k:"Ramah",l:"Tak tahan tekanan"}
+};
+
+const score={};
+Object.keys(colors).forEach(c=>score[c]=0);
+
+/* ========= 20 SOAL ========= */
+const questions=[
+{q:"Saat menghadapi situasi baru tanpa arahan:",a:[
+{t:"Mengamati dulu sebelum bertindak",c:"blue"},
+{t:"Langsung mengambil inisiatif",c:"red"},
+{t:"Menyesuaikan diri perlahan",c:"green"},
+{t:"Menentukan struktur agar jelas",c:"navy"}
+]},
+{q:"Jika terjadi konflik dalam tim:",a:[
+{t:"Menyelesaikan secara langsung",c:"red"},
+{t:"Menjaga suasana tetap damai",c:"green"},
+{t:"Menganalisis penyebabnya",c:"blue"},
+{t:"Menarik diri sementara",c:"black"}
+]},
+{q:"Saat rencana berubah mendadak:",a:[
+{t:"Menganggapnya peluang baru",c:"orange"},
+{t:"Mengatur ulang langkah",c:"navy"},
+{t:"Merasa tidak nyaman",c:"purple"},
+{t:"Menerima dengan tenang",c:"green"}
+]},
+{q:"Jika seseorang mengkritik caramu bekerja:",a:[
+{t:"Menjadikannya motivasi",c:"red"},
+{t:"Mengevaluasi dengan logis",c:"blue"},
+{t:"Menerima tanpa banyak reaksi",c:"white"},
+{t:"Merasa tersentuh secara emosional",c:"pink"}
+]},
+{q:"Dalam tekanan waktu:",a:[
+{t:"Mendorong diri lebih keras",c:"red"},
+{t:"Menjaga ritme agar stabil",c:"navy"},
+{t:"Takut hasil tidak sempurna",c:"blue"},
+{t:"Mencari ketenangan",c:"lightblue"}
+]},
+{q:"Jika harus memimpin orang lain:",a:[
+{t:"Mengambil kendali penuh",c:"red"},
+{t:"Mengatur sistem kerja",c:"navy"},
+{t:"Menjadi pendengar",c:"green"},
+{t:"Memberi inspirasi",c:"orange"}
+]},
+{q:"Saat berada di lingkungan baru:",a:[
+{t:"Cepat berbaur",c:"yellow"},
+{t:"Mengamati dulu",c:"blue"},
+{t:"Mencari rasa aman",c:"white"},
+{t:"Menjaga jarak",c:"black"}
+]},
+{q:"Jika tujuan terasa berat:",a:[
+{t:"Terus mendorong diri",c:"red"},
+{t:"Menganalisis ulang strategi",c:"mustard"},
+{t:"Menurunkan ekspektasi",c:"green"},
+{t:"Merasa kehilangan arah",c:"purple"}
+]},
+{q:"Saat bekerja jangka panjang:",a:[
+{t:"Butuh variasi",c:"orange"},
+{t:"Fokus konsistensi",c:"navy"},
+{t:"Menjaga kualitas detail",c:"blue"},
+{t:"Menjaga suasana",c:"green"}
+]},
+{q:"Jika menghadapi risiko:",a:[
+{t:"Langsung mencoba",c:"red"},
+{t:"Menghitung dampaknya",c:"blue"},
+{t:"Menghindarinya",c:"green"},
+{t:"Mencari jalan aman",c:"white"}
+]},
+{q:"Saat suasana emosional:",a:[
+{t:"Mengungkapkan perasaan",c:"pink"},
+{t:"Mengendalikan diri",c:"navy"},
+{t:"Menarik diri",c:"black"},
+{t:"Menenangkan sekitar",c:"green"}
+]},
+{q:"Jika nilai hidupmu dipertanyakan:",a:[
+{t:"Membela dengan tegas",c:"red"},
+{t:"Menjelaskan dengan logika",c:"blue"},
+{t:"Diam dan refleksi",c:"purple"},
+{t:"Menghindari konflik",c:"white"}
+]},
+{q:"Dalam tim besar:",a:[
+{t:"Menjadi penggerak",c:"yellow"},
+{t:"Menjaga sistem",c:"navy"},
+{t:"Menjadi penyeimbang",c:"green"},
+{t:"Mengamati dari jauh",c:"black"}
+]},
+{q:"Saat merasa tidak dihargai:",a:[
+{t:"Menuntut kejelasan",c:"red"},
+{t:"Menganalisis penyebab",c:"mustard"},
+{t:"Memendam perasaan",c:"purple"},
+{t:"Mencari dukungan emosional",c:"pink"}
+]},
+{q:"Jika semua berjalan stagnan:",a:[
+{t:"Memicu perubahan",c:"orange"},
+{t:"Menekan agar bergerak",c:"red"},
+{t:"Menerima keadaan",c:"green"},
+{t:"Mencari arah baru",c:"mustard"}
+]},
+{q:"Saat harus mengalah:",a:[
+{t:"Sulit menerima",c:"red"},
+{t:"Mengalah demi harmoni",c:"green"},
+{t:"Menerima secara rasional",c:"blue"},
+{t:"Merasa tidak didengar",c:"pink"}
+]},
+{q:"Jika diminta rahasia:",a:[
+{t:"Menjaganya ketat",c:"navy"},
+{t:"Merasa terbebani",c:"green"},
+{t:"Curiga pada niatnya",c:"black"},
+{t:"Mudah terbuka",c:"white"}
+]},
+{q:"Dalam kondisi serba cepat:",a:[
+{t:"Mengendalikan arah",c:"red"},
+{t:"Menjaga kestabilan",c:"navy"},
+{t:"Merasa kewalahan",c:"lightyellow"},
+{t:"Mengikuti alur",c:"yellow"}
+]},
+{q:"Jika gagal mencapai target:",a:[
+{t:"Mencoba lagi",c:"red"},
+{t:"Evaluasi menyeluruh",c:"mustard"},
+{t:"Menyalahkan diri",c:"purple"},
+{t:"Mencari penguatan emosional",c:"pink"}
+]},
+{q:"Saat semua terasa tidak pasti:",a:[
+{t:"Berpegang pada prinsip",c:"navy"},
+{t:"Mencari makna lebih dalam",c:"purple"},
+{t:"Menyesuaikan diri",c:"green"},
+{t:"Mencari perlindungan",c:"white"}
+]}
+];
+
+questions.sort(()=>Math.random()-0.5);
+
+let index=0;
+
+function startTest(){
+startDiv.classList.add("hidden");
+quizDiv.classList.remove("hidden");
+loadQuestion();
+}
+
+function loadQuestion(){
+const q=questions[index];
+questionEl.innerText=`${index+1}. ${q.q}`;
+optionsEl.innerHTML="";
+q.a.sort(()=>Math.random()-0.5).forEach(o=>{
+const d=document.createElement("div");
+d.className="option";
+d.innerText=o.t;
+d.onclick=()=>{
+score[o.c]+=Math.random()*1.4+0.6;
+index++;
+index<questions.length?loadQuestion():showResult();
+};
+optionsEl.appendChild(d);
+});
+}
+
+function showResult(){
+quizDiv.classList.add("hidden");
+resultDiv.classList.remove("hidden");
+
+const domKey=Object.keys(score).reduce((a,b)=>score[a]>score[b]?a:b);
+const userColor=colors[domKey].n;
+
+summaryEl.innerHTML=`
+<h3>Warna Dominan Kamu</h3>
+<span class="badge">${userColor}</span>
+
+<h3>Pilih Warna Pasangan</h3>
+<select id="partner" style="width:100%;padding:12px;border-radius:12px;background:#020617;color:#fff">
+${Object.values(colors).map(c=>`<option>${c.n}</option>`).join("")}
+</select>
+
+<div id="relationResult" style="margin-top:20px"></div>
+`;
+
+document.getElementById("partner").onchange=e=>{
+const partner=e.target.value;
+const res=relations[userColor]?.[partner] || "Hubungan netral & bergantung kedewasaan";
+document.getElementById("relationResult").innerHTML=`
+<h3>Simulasi Hubungan</h3>
+<p><b>${userColor} × ${partner}</b></p>
+<p>${res}</p>
+`;
+};
+}
+
+/* ====== RELASI WARNA ====== */
+const relations = {
+Merah:{
+Merah:"Ambisi tinggi, rawan ego",
+Kuning:"Aktif & hidup",
+Biru:"Terarah & mapan",
+Putih:"Adil jika mau dengar",
+Hitam:"Keras & dingin",
+Oranye:"Produktif",
+Hijau:"Pemimpin bijak",
+Ungu:"Ide besar",
+Pink:"Protektif & romantis",
+"K. Muda":"Ceria tapi timpang",
+"B. Muda":"Seimbang",
+Maroon:"Kaku tapi loyal",
+Mustard:"Benturan nilai",
+Navy:"Stabil tapi kaku"
+},
+Kuning:{
+Merah:"Dinamis",
+Kuning:"Ceria tapi chaos",
+Biru:"Kreatif tapi miskom",
+Putih:"Ringan & damai",
+Hitam:"Kuning tertekan",
+Oranye:"Hangat & aktif",
+Hijau:"Rumah suportif",
+Ungu:"Imajinatif",
+Pink:"Hangat & manja",
+"K. Muda":"Ringan & bahagia",
+"B. Muda":"Nyaman",
+Maroon:"Tradisi vs spontan",
+Mustard:"Dewasa emosional",
+Navy:"Tenang tapi datar"
+},
+Biru:{
+Merah:"Terstruktur",
+Kuning:"Logika vs emosi",
+Biru:"Stabil tapi dingin",
+Putih:"Aman & manusiawi",
+Hitam:"Disiplin ekstrem",
+Oranye:"Ide jadi nyata",
+Hijau:"Stabil & awet",
+Ungu:"Mendalam",
+Pink:"Aman tapi kurang hangat",
+"K. Muda":"Ringan",
+"B. Muda":"Tenang & seimbang",
+Maroon:"Kaku",
+Mustard:"Realistis",
+Navy:"Sangat stabil"
+},
+Hijau:{
+Merah:"Bijak",
+Kuning:"Suportif",
+Biru:"Stabil",
+Putih:"Menenangkan",
+Hitam:"Terbebani",
+Oranye:"Nyaman",
+Hijau:"Damai tapi stagnan",
+Ungu:"Empatik",
+Pink:"Aman",
+"K. Muda":"Nyaman",
+"B. Muda":"Menenangkan",
+Maroon:"Mengalah",
+Mustard:"Dewasa",
+Navy:"Awet"
+},
+Putih:{
+Merah:"Netral & adil",
+Kuning:"Damai",
+Biru:"Aman",
+Putih:"Harmonis tapi lemah arah",
+Hitam:"Mudah ditekan",
+Oranye:"Seimbang",
+Hijau:"Menenangkan",
+Ungu:"Bijak",
+Pink:"Penuh kasih",
+"K. Muda":"Ringan",
+"B. Muda":"Menenangkan",
+Maroon:"Tersisih",
+Mustard:"Bijak",
+Navy:"Aman"
+}
+};
+</script>
+</body>
+</html>
