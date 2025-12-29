@@ -2,61 +2,92 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Tes Karakter 14 Warna</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
+:root{
+ --bg:#020617;
+ --glass:rgba(15,23,42,.78);
+ --border:rgba(148,163,184,.18);
+ --text:#e5e7eb;
+ --muted:#94a3b8;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
 body{
-margin:0;
-font-family:Inter,Segoe UI,sans-serif;
-background:linear-gradient(135deg,#020617,#0f172a);
-color:#e5e7eb;
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
+ font-family:Inter,sans-serif;
+ background:radial-gradient(circle at top,#1e293b,#020617 70%);
+ color:var(--text);
+ min-height:100vh;
+ padding:12px;
+ display:flex;
+ justify-content:center;
+ align-items:flex-start;
 }
 .card{
-width:100%;
-max-width:900px;
-background:#020617cc;
-backdrop-filter:blur(14px);
-border-radius:22px;
-padding:28px;
-box-shadow:0 30px 60px #0008;
+ width:100%;
+ max-width:520px;
+ background:var(--glass);
+ backdrop-filter:blur(14px);
+ border:1px solid var(--border);
+ border-radius:20px;
+ padding:18px;
+ box-shadow:0 25px 50px #0008;
+}
+h1{font-size:1.6rem}
+h2{font-size:1.25rem}
+h3{font-size:1.1rem}
+p{font-size:.95rem;color:var(--muted);line-height:1.5}
+button{
+ width:100%;
+ min-height:48px;
+ border-radius:14px;
+ border:none;
+ background:linear-gradient(135deg,#6366f1,#22d3ee);
+ color:#fff;
+ font-size:1rem;
+ font-weight:600;
+ cursor:pointer;
+}
+.option{
+ background:#020617cc;
+ border:1px solid var(--border);
+ padding:14px 16px;
+ border-radius:14px;
+ margin:10px 0;
+ cursor:pointer;
+}
+.option:active{transform:scale(.97)}
+.progress{
+ height:8px;
+ background:#020617;
+ border-radius:999px;
+ margin-bottom:14px;
+ overflow:hidden;
+}
+.progress span{
+ display:block;
+ height:100%;
+ width:0;
+ background:linear-gradient(90deg,#6366f1,#22d3ee);
+ transition:.3s;
+}
+select{
+ width:100%;
+ min-height:44px;
+ border-radius:12px;
+ background:#020617;
+ color:var(--text);
+ border:1px solid var(--border);
+ padding:10px;
+ margin-top:10px;
 }
 .hidden{display:none}
-.option{
-background:#020617aa;
-border:1px solid #1e293b;
-padding:14px;
-border-radius:14px;
-margin:10px 0;
-cursor:pointer;
-transition:.2s;
-}
-.option:hover{
-background:#1e293b;
-transform:translateY(-2px);
-}
-button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:14px;
-background:linear-gradient(135deg,#38bdf8,#6366f1);
-color:#fff;
-font-size:16px;
-cursor:pointer;
-}
-.badge{
-display:inline-block;
-padding:8px 16px;
-border-radius:999px;
-background:#1e293b;
-margin-bottom:10px;
-font-weight:600;
-}
+.fade{animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}}
 </style>
 </head>
 
@@ -64,317 +95,342 @@ font-weight:600;
 <div class="card">
 
 <div id="start">
-<h1>Tes Karakter – 14 Warna</h1>
-<p>Tes reflektif untuk memahami kecenderungan karakter & pola relasi.</p>
-<button onclick="startTest()">Mulai Tes</button>
+ <h1> Tes Karakter Warna</h1>
+ <p>Tes reflektif untuk mengenali karakter dominan dan arah potensi diri.</p>
+ <button onclick="start()">Mulai Tes</button>
 </div>
 
 <div id="quiz" class="hidden">
-<h2 id="question"></h2>
-<div id="options"></div>
+ <div class="progress"><span id="bar"></span></div>
+ <h2 id="q"></h2>
+ <div id="ops"></div>
 </div>
 
 <div id="result" class="hidden">
-<h2>Hasil Karakter Dominan</h2>
-<div id="summary"></div>
-<button onclick="location.reload()">Ulangi Tes</button>
+ <h2>✨ Karakter Dominan</h2>
+ <div id="out" class="fade"></div>
+
+ <h3 style="margin-top:18px">🔗 Relasi Antar Warna</h3>
+ <select id="a" onchange="showRelation()"></select>
+ <select id="b" onchange="showRelation()"></select>
+ <p id="rel" class="fade" style="margin-top:12px"></p>
+
+ <button style="margin-top:18px" onclick="location.reload()">Ulangi Tes</button>
 </div>
 
 </div>
 
 <script>
-const startDiv=document.getElementById("start");
-const quizDiv=document.getElementById("quiz");
-const resultDiv=document.getElementById("result");
-const questionEl=document.getElementById("question");
-const optionsEl=document.getElementById("options");
-const summaryEl=document.getElementById("summary");
+const $=id=>document.getElementById(id);
 
-/* WARNA */
-const colors={
-red:{n:"Merah",k:"Berani, tegas",l:"Dominan"},
-yellow:{n:"Kuning",k:"Ceria, komunikatif",l:"Tidak konsisten"},
-blue:{n:"Biru",k:"Logis, setia",l:"Kaku"},
-green:{n:"Hijau",k:"Empatik, sabar",l:"Mengalah"},
-black:{n:"Hitam",k:"Mandiri",l:"Tertutup"},
-white:{n:"Putih",k:"Netral",l:"Naif"},
-orange:{n:"Oranye",k:"Inspiratif",l:"Mudah bosan"},
-purple:{n:"Ungu",k:"Intuitif",l:"Abstrak"},
-pink:{n:"Pink",k:"Penyayang",l:"Bergantung"},
-navy:{n:"Navy",k:"Disiplin",l:"Emosi tertahan"},
-maroon:{n:"Maroon",k:"Loyal",l:"Keras kepala"},
-mustard:{n:"Mustard",k:"Matang",l:"Sinis"},
-lightblue:{n:"Biru Muda",k:"Tenang",l:"Pasif"},
-lightyellow:{n:"Kuning Muda",k:"Ramah",l:"Tak tahan tekanan"}
+/* ===== SHUFFLE (WAJIB) ===== */
+function shuffle(arr){
+ for(let i=arr.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [arr[i],arr[j]]=[arr[j],arr[i]];
+ }
+ return arr;
+}
+
+/* ===== DATA ===== */
+const colorKey={
+ red:"Merah", yellow:"Kuning", blue:"Biru", green:"Hijau",
+ black:"Hitam", white:"Putih", orange:"Oranye", purple:"Ungu",
+ pink:"Pink", navy:"Navy", maroon:"Maroon", mustard:"Mustard",
+ lightblue:"Biru Muda", lightyellow:"Kuning Muda"
 };
 
-const score={};
-Object.keys(colors).forEach(c=>score[c]=0);
+const palette={
+ Merah:{bg:"#7f1d1d",glow:"#ef4444"},
+ Kuning:{bg:"#713f12",glow:"#facc15"},
+ Biru:{bg:"#1e3a8a",glow:"#60a5fa"},
+ Hijau:{bg:"#064e3b",glow:"#34d399"},
+ Putih:{bg:"#334155",glow:"#e5e7eb"},
+ Hitam:{bg:"#020617",glow:"#64748b"},
+ Oranye:{bg:"#7c2d12",glow:"#fb923c"},
+ Ungu:{bg:"#4c1d95",glow:"#c084fc"},
+ Pink:{bg:"#831843",glow:"#f9a8d4"},
+ Navy:{bg:"#020617",glow:"#38bdf8"},
+ Maroon:{bg:"#4c0519",glow:"#fb7185"},
+ Mustard:{bg:"#78350f",glow:"#fcd34d"},
+ "Biru Muda":{bg:"#0f172a",glow:"#7dd3fc"},
+ "Kuning Muda":{bg:"#422006",glow:"#fde68a"}
+};
 
-/* ========= 20 SOAL ========= */
+const profiles={
+ "Merah":"Pemimpin alami, tegas, dan berorientasi hasil.",
+ "Kuning":"Ceria, komunikatif, dan penuh ide.",
+ "Biru":"Logis, analitis, dan sistematis.",
+ "Hijau":"Empatik, penyeimbang, dan suportif.",
+ "Putih":"Netral, reflektif, dan menenangkan.",
+ "Hitam":"Mandiri, protektif, dan kuat secara batin.",
+ "Oranye":"Aktif, adaptif, dan energik.",
+ "Ungu":"Visioner, intuitif, dan filosofis.",
+ "Pink":"Lembut, peduli, dan afektif.",
+ "Kuning Muda":"Sensitif dan ringan.",
+ "Biru Muda":"Tenang dan pendengar baik.",
+ "Maroon":"Loyal dan berprinsip.",
+ "Mustard":"Realistis dan kritis.",
+ "Navy":"Stabil dan disiplin."
+};
+
+const jobs={
+ "Merah":["Manajer","Entrepreneur","Project Leader","Sales Executive"],
+ "Kuning":["Public Relations","Content Creator","Event Organizer","Marketing"],
+ "Biru":["Data Analyst","Programmer","Akuntan","Engineer"],
+ "Hijau":["HRD","Konselor","Guru","Psikolog"],
+ "Putih":["Mediator","Editor","Quality Control","Arsiparis"],
+ "Hitam":["Security Analyst","Investigator","Peneliti","Strategist"],
+ "Oranye":["Marketing Lapangan","Trainer","Tour Leader","Startup Crew"],
+ "Ungu":["Desainer","Penulis","Kreator Konsep","Brand Strategist"],
+ "Pink":["Perawat","Customer Care","Beauty Consultant","Social Worker"],
+ "Kuning Muda":["Asisten","Admin","Early Childhood Educator","Support Staff"],
+ "Biru Muda":["Customer Support","Tutor","Relawan","Community Officer"],
+ "Maroon":["Supervisor","Compliance Officer","Administrator","Manajer Operasional"],
+ "Mustard":["Auditor","Analis Risiko","Quality Assurance","Konsultan"],
+ "Navy":["Militer","Manajer Operasional","Logistik","PNS"]
+};
+
+function relasiWarna(A,B){
+ if(A===B) return `${A} × ${B}: sangat harmonis.`;
+ return `${A} × ${B}: potensi berkembang tergantung komunikasi.`;
+}
+
+/* ===== SCORE ===== */
+const score={};
+Object.keys(colorKey).forEach(k=>score[k]=0);
+
+/* ===== QUESTIONS ===== */
 const questions=[
-{q:"Saat menghadapi situasi baru tanpa arahan:",a:[
-{t:"Mengamati dulu sebelum bertindak",c:"blue"},
-{t:"Langsung mengambil inisiatif",c:"red"},
-{t:"Menyesuaikan diri perlahan",c:"green"},
-{t:"Menentukan struktur agar jelas",c:"navy"}
+{q:"Kamu memasuki sebuah fase baru dalam hidup. Tidak ada peta, tidak ada penjelasan. Orang-orang bergerak dengan cara mereka masing-masing. Hal pertama yang kamu lakukan adalah…",a:[
+{t:"Mengamati dulu apa yang sedang terjadi",c:"blue"},
+{t:"Melangkah dan belajar sambil jalan",c:"red"},
+{t:"Menyesuaikan diri dengan lingkungan sekitar",c:"green"},
+{t:"Mengikuti cara yang tampaknya sudah ada",c:"maroon"},
+{t:"Menikmati rasa tidak pastinya",c:"yellow"}
 ]},
-{q:"Jika terjadi konflik dalam tim:",a:[
-{t:"Menyelesaikan secara langsung",c:"red"},
-{t:"Menjaga suasana tetap damai",c:"green"},
-{t:"Menganalisis penyebabnya",c:"blue"},
-{t:"Menarik diri sementara",c:"black"}
+
+{q:"Tak lama, kamu harus bekerja bersama sekelompok orang yang belum saling mengenal. Perbedaan mulai terasa. Dalam situasi itu, peran yang paling alami bagimu adalah…",a:[
+{t:"Mendorong agar semuanya bergerak maju",c:"red"},
+{t:"Menjaga agar suasana tetap nyaman",c:"green"},
+{t:"Mencari tahu akar persoalan",c:"blue"},
+{t:"Mengamati tanpa banyak terlibat",c:"black"},
+{t:"Menjadi penenang di tengah perbedaan",c:"lightblue"}
 ]},
-{q:"Saat rencana berubah mendadak:",a:[
-{t:"Menganggapnya peluang baru",c:"orange"},
-{t:"Mengatur ulang langkah",c:"navy"},
-{t:"Merasa tidak nyaman",c:"purple"},
-{t:"Menerima dengan tenang",c:"green"}
+
+{q:"Suatu hari, rencana besar yang sudah disusun tiba-tiba berubah. Tidak ada waktu untuk menyiapkan ulang dari awal. Reaksimu adalah…",a:[
+{t:"Melihat peluang baru di balik perubahan",c:"orange"},
+{t:"Menyusun ulang langkah agar tetap masuk akal",c:"navy"},
+{t:"Merenungkan apa arti perubahan ini",c:"purple"},
+{t:"Mengikutinya dengan rasa penasaran",c:"yellow"},
+{t:"Sempat gelisah, tapi tetap berjalan",c:"lightyellow"}
 ]},
-{q:"Jika seseorang mengkritik caramu bekerja:",a:[
-{t:"Menjadikannya motivasi",c:"red"},
-{t:"Mengevaluasi dengan logis",c:"blue"},
-{t:"Menerima tanpa banyak reaksi",c:"white"},
-{t:"Merasa tersentuh secara emosional",c:"pink"}
+
+{q:"Di tengah perjalanan, seseorang menyampaikan kritik yang cukup tajam tentang caramu. Setelah mendengarnya, kamu cenderung…",a:[
+{t:"Menjadikannya bahan pendorong diri",c:"red"},
+{t:"Memilah mana yang bisa dipakai",c:"mustard"},
+{t:"Menerimanya tanpa banyak reaksi",c:"white"},
+{t:"Merasa cukup tersentuh secara pribadi",c:"pink"},
+{t:"Memikirkannya dalam diam",c:"purple"}
 ]},
-{q:"Dalam tekanan waktu:",a:[
-{t:"Mendorong diri lebih keras",c:"red"},
-{t:"Menjaga ritme agar stabil",c:"navy"},
-{t:"Takut hasil tidak sempurna",c:"blue"},
+
+{q:"Tekanan waktu mulai terasa nyata. Banyak hal harus selesai bersamaan. Dalam kondisi ini kamu biasanya…",a:[
+{t:"Memacu diri agar semuanya tuntas",c:"red"},
+{t:"Menjaga ritme agar tetap terkendali",c:"navy"},
+{t:"Takut hasilnya tidak maksimal",c:"blue"},
+{t:"Menjaga agar suasana tetap tenang",c:"lightblue"},
+{t:"Merasa tidak nyaman tapi terus berjalan",c:"lightyellow"}
+]},
+
+{q:"Tanpa kamu minta, orang-orang mulai menunggu arah darimu. Kamu berada di posisi memimpin. Hal yang paling alami kamu lakukan adalah…",a:[
+{t:"Menentukan arah dengan tegas",c:"red"},
+{t:"Mengatur sistem agar rapi",c:"navy"},
+{t:"Mendengarkan suara tim",c:"green"},
+{t:"Menyuntikkan semangat",c:"orange"},
+{t:"Mengajak dengan empati",c:"pink"}
+]},
+
+{q:"Kamu dipindahkan ke lingkungan baru yang benar-benar asing. Saat pertama kali berada di sana, kamu lebih cenderung…",a:[
+{t:"Cepat membuka percakapan",c:"yellow"},
+{t:"Mengamati dinamika sekitar",c:"blue"},
+{t:"Mencari posisi yang terasa aman",c:"white"},
+{t:"Menjaga jarak sementara",c:"black"},
+{t:"Beradaptasi perlahan",c:"lightyellow"}
+]},
+
+{q:"Target yang kamu kejar terasa semakin berat. Semakin dekat, tekanannya makin terasa. Saat itu kamu memilih untuk…",a:[
+{t:"Terus mendorong diri agar maju",c:"red"},
+{t:"Mengubah strategi",c:"mustard"},
+{t:"Menjaga kestabilan emosi",c:"green"},
+{t:"Merenungkan kembali maknanya",c:"purple"},
 {t:"Mencari ketenangan",c:"lightblue"}
 ]},
-{q:"Jika harus memimpin orang lain:",a:[
-{t:"Mengambil kendali penuh",c:"red"},
-{t:"Mengatur sistem kerja",c:"navy"},
-{t:"Menjadi pendengar",c:"green"},
-{t:"Memberi inspirasi",c:"orange"}
+
+{q:"Perjalanan ini bukan sebentar. Kamu sadar harus menjalaninya dalam jangka panjang. Cara yang paling cocok bagimu adalah…",a:[
+{t:"Memberi variasi agar tetap segar",c:"orange"},
+{t:"Menjaga disiplin dan konsistensi",c:"navy"},
+{t:"Fokus pada detail",c:"blue"},
+{t:"Menjaga keharmonisan",c:"green"},
+{t:"Bekerja stabil tanpa gejolak",c:"white"}
 ]},
-{q:"Saat berada di lingkungan baru:",a:[
-{t:"Cepat berbaur",c:"yellow"},
-{t:"Mengamati dulu",c:"blue"},
-{t:"Mencari rasa aman",c:"white"},
-{t:"Menjaga jarak",c:"black"}
+
+{q:"Di satu titik, kamu dihadapkan pada keputusan yang mengandung risiko. Tidak ada jaminan hasilnya. Kamu cenderung…",a:[
+{t:"Mencoba meski ada risiko",c:"orange"},
+{t:"Menghitung dampaknya lebih dulu",c:"mustard"},
+{t:"Memilih jalur paling aman",c:"white"},
+{t:"Berpegang pada prinsip pribadi",c:"maroon"},
+{t:"Ragu, tapi penasaran",c:"lightyellow"}
 ]},
-{q:"Jika tujuan terasa berat:",a:[
-{t:"Terus mendorong diri",c:"red"},
-{t:"Menganalisis ulang strategi",c:"mustard"},
-{t:"Menurunkan ekspektasi",c:"green"},
-{t:"Merasa kehilangan arah",c:"purple"}
+
+{q:"Emosi mulai menumpuk. Ada hari di mana perasaan terasa penuh. Saat itu kamu biasanya…",a:[
+{t:"Mengekspresikannya keluar",c:"pink"},
+{t:"Menahannya agar tetap terkendali",c:"navy"},
+{t:"Menutup diri sementara",c:"black"},
+{t:"Menenangkan diri dan sekitar",c:"lightblue"},
+{t:"Memprosesnya secara mendalam",c:"purple"}
 ]},
-{q:"Saat bekerja jangka panjang:",a:[
-{t:"Butuh variasi",c:"orange"},
-{t:"Fokus konsistensi",c:"navy"},
-{t:"Menjaga kualitas detail",c:"blue"},
-{t:"Menjaga suasana",c:"green"}
+
+{q:"Seseorang mempertanyakan nilai yang kamu pegang. Kamu merasa ini cukup penting. Reaksimu adalah…",a:[
+{t:"Membelanya dengan tegas",c:"red"},
+{t:"Menjelaskannya secara logis",c:"blue"},
+{t:"Merenungkannya secara batin",c:"purple"},
+{t:"Mengaitkannya dengan nilai keluarga",c:"maroon"},
+{t:"Memilih tidak memperpanjang konflik",c:"white"}
 ]},
-{q:"Jika menghadapi risiko:",a:[
-{t:"Langsung mencoba",c:"red"},
-{t:"Menghitung dampaknya",c:"blue"},
-{t:"Menghindarinya",c:"green"},
-{t:"Mencari jalan aman",c:"white"}
-]},
-{q:"Saat suasana emosional:",a:[
-{t:"Mengungkapkan perasaan",c:"pink"},
-{t:"Mengendalikan diri",c:"navy"},
-{t:"Menarik diri",c:"black"},
-{t:"Menenangkan sekitar",c:"green"}
-]},
-{q:"Jika nilai hidupmu dipertanyakan:",a:[
-{t:"Membela dengan tegas",c:"red"},
-{t:"Menjelaskan dengan logika",c:"blue"},
-{t:"Diam dan refleksi",c:"purple"},
-{t:"Menghindari konflik",c:"white"}
-]},
-{q:"Dalam tim besar:",a:[
-{t:"Menjadi penggerak",c:"yellow"},
-{t:"Menjaga sistem",c:"navy"},
+
+{q:"Kamu kini menjadi bagian dari tim besar. Banyak karakter dan kepentingan. Peran yang paling alami bagimu adalah…",a:[
+{t:"Memberi dorongan energi",c:"yellow"},
+{t:"Menjaga sistem tetap berjalan",c:"navy"},
 {t:"Menjadi penyeimbang",c:"green"},
-{t:"Mengamati dari jauh",c:"black"}
+{t:"Mengamati dari belakang",c:"black"},
+{t:"Mendukung dengan tenang",c:"lightblue"}
 ]},
-{q:"Saat merasa tidak dihargai:",a:[
-{t:"Menuntut kejelasan",c:"red"},
-{t:"Menganalisis penyebab",c:"mustard"},
-{t:"Memendam perasaan",c:"purple"},
-{t:"Mencari dukungan emosional",c:"pink"}
+
+{q:"Ada saat di mana kamu merasa usahamu kurang dihargai. Menghadapi itu, kamu cenderung…",a:[
+{t:"Mencari kejelasan secara langsung",c:"red"},
+{t:"Menganalisis penyebabnya",c:"mustard"},
+{t:"Memendamnya sendiri",c:"purple"},
+{t:"Mencari empati",c:"pink"},
+{t:"Menjauh demi menjaga diri",c:"white"}
 ]},
-{q:"Jika semua berjalan stagnan:",a:[
+
+{q:"Keadaan terasa stagnan. Tidak buruk, tapi juga tidak bergerak. Di fase ini kamu memilih untuk…",a:[
 {t:"Memicu perubahan",c:"orange"},
-{t:"Menekan agar bergerak",c:"red"},
-{t:"Menerima keadaan",c:"green"},
-{t:"Mencari arah baru",c:"mustard"}
+{t:"Mencari arah baru",c:"mustard"},
+{t:"Menjaga kestabilan",c:"green"},
+{t:"Mengalir ringan",c:"yellow"},
+{t:"Menunggu waktu yang tepat",c:"maroon"}
 ]},
-{q:"Saat harus mengalah:",a:[
-{t:"Sulit menerima",c:"red"},
-{t:"Mengalah demi harmoni",c:"green"},
-{t:"Menerima secara rasional",c:"blue"},
-{t:"Merasa tidak didengar",c:"pink"}
+
+{q:"Dalam situasi tertentu, kamu harus mengalah meski tidak sepenuhnya setuju. Reaksimu lebih ke…",a:[
+{t:"Sulit menerimanya",c:"red"},
+{t:"Melakukannya demi kebersamaan",c:"green"},
+{t:"Menerimanya secara rasional",c:"blue"},
+{t:"Merasa cukup emosional",c:"pink"},
+{t:"Diam demi keamanan",c:"white"}
 ]},
-{q:"Jika diminta rahasia:",a:[
-{t:"Menjaganya ketat",c:"navy"},
-{t:"Merasa terbebani",c:"green"},
-{t:"Curiga pada niatnya",c:"black"},
-{t:"Mudah terbuka",c:"white"}
+
+{q:"Seseorang mempercayakan rahasia penting kepadamu. Setelah mendengarnya, kamu merasa…",a:[
+{t:"Harus menjaganya dengan sangat serius",c:"navy"},
+{t:"Terbebani secara perasaan",c:"green"},
+{t:"Menjadi lebih waspada",c:"black"},
+{t:"Menganggapnya netral",c:"white"},
+{t:"Merasa cukup sensitif",c:"lightyellow"}
 ]},
-{q:"Dalam kondisi serba cepat:",a:[
-{t:"Mengendalikan arah",c:"red"},
-{t:"Menjaga kestabilan",c:"navy"},
+
+{q:"Segalanya kini bergerak sangat cepat. Banyak keputusan harus dibuat hampir bersamaan. Dalam kondisi ini kamu…",a:[
+{t:"Berusaha memegang kendali",c:"red"},
+{t:"Menjaga stabilitas",c:"navy"},
 {t:"Merasa kewalahan",c:"lightyellow"},
-{t:"Mengikuti alur",c:"yellow"}
+{t:"Menikmati ritmenya",c:"yellow"},
+{t:"Tetap tenang di balik layar",c:"lightblue"}
 ]},
-{q:"Jika gagal mencapai target:",a:[
-{t:"Mencoba lagi",c:"red"},
-{t:"Evaluasi menyeluruh",c:"mustard"},
-{t:"Menyalahkan diri",c:"purple"},
-{t:"Mencari penguatan emosional",c:"pink"}
+
+{q:"Target besar yang kamu kejar ternyata belum tercapai. Menghadapi kegagalan ini, kamu lebih mungkin…",a:[
+{t:"Mencoba kembali",c:"orange"},
+{t:"Mengevaluasi langkah",c:"mustard"},
+{t:"Menyalahkan diri sendiri",c:"purple"},
+{t:"Mencari dukungan",c:"pink"},
+{t:"Menerimanya dengan lapang",c:"white"}
 ]},
-{q:"Saat semua terasa tidak pasti:",a:[
-{t:"Berpegang pada prinsip",c:"navy"},
-{t:"Mencari makna lebih dalam",c:"purple"},
-{t:"Menyesuaikan diri",c:"green"},
-{t:"Mencari perlindungan",c:"white"}
+
+{q:"Di akhir perjalanan ini, banyak hal masih belum pasti. Tidak semua jawaban ada. Sikap yang paling mencerminkan dirimu adalah…",a:[
+{t:"Tetap berpegang pada prinsip",c:"maroon"},
+{t:"Mencari makna di balik semuanya",c:"purple"},
+{t:"Menyesuaikan diri dengan keadaan",c:"green"},
+{t:"Memilih langkah yang aman",c:"white"},
+{t:"Mengikuti intuisi",c:"yellow"}
 ]}
 ];
 
-questions.sort(()=>Math.random()-0.5);
+let i=0;
 
-let index=0;
-
-function startTest(){
-startDiv.classList.add("hidden");
-quizDiv.classList.remove("hidden");
-loadQuestion();
+/* ===== START ===== */
+function start(){
+ shuffle(questions);           // 🔀 acak soal
+ $("start").classList.add("hidden");
+ $("quiz").classList.remove("hidden");
+ next();
 }
 
-function loadQuestion(){
-const q=questions[index];
-questionEl.innerText=`${index+1}. ${q.q}`;
-optionsEl.innerHTML="";
-q.a.sort(()=>Math.random()-0.5).forEach(o=>{
-const d=document.createElement("div");
-d.className="option";
-d.innerText=o.t;
-d.onclick=()=>{
-score[o.c]+=Math.random()*1.4+0.6;
-index++;
-index<questions.length?loadQuestion():showResult();
-};
-optionsEl.appendChild(d);
-});
+/* ===== NEXT ===== */
+function next(){
+ const q=questions[i];
+ $("q").innerText=q.q;
+ $("ops").innerHTML="";
+ $("bar").style.width=`${(i/questions.length)*100}%`;
+
+ const answers = shuffle([...q.a]); // 🔀 acak jawaban
+
+ answers.forEach(o=>{
+  const d=document.createElement("div");
+  d.className="option";
+  d.innerText=o.t;
+  d.onclick=()=>{
+   score[o.c]++;
+   i++;
+   i<questions.length?next():result();
+  };
+  $("ops").appendChild(d);
+ });
 }
 
-function showResult(){
-quizDiv.classList.add("hidden");
-resultDiv.classList.remove("hidden");
+/* ===== RESULT ===== */
+function result(){
+ $("quiz").classList.add("hidden");
+ $("result").classList.remove("hidden");
 
-const domKey=Object.keys(score).reduce((a,b)=>score[a]>score[b]?a:b);
-const userColor=colors[domKey].n;
+ const k=Object.keys(score).reduce((a,b)=>score[a]>score[b]?a:b);
+ const name=colorKey[k];
+ const pal=palette[name];
 
-summaryEl.innerHTML=`
-<h3>Warna Dominan Kamu</h3>
-<span class="badge">${userColor}</span>
-
-<h3>Pilih Warna Pasangan</h3>
-<select id="partner" style="width:100%;padding:12px;border-radius:12px;background:#020617;color:#fff">
-${Object.values(colors).map(c=>`<option>${c.n}</option>`).join("")}
-</select>
-
-<div id="relationResult" style="margin-top:20px"></div>
-`;
-
-document.getElementById("partner").onchange=e=>{
-const partner=e.target.value;
-const res=relations[userColor]?.[partner] || "Hubungan netral & bergantung kedewasaan";
-document.getElementById("relationResult").innerHTML=`
-<h3>Simulasi Hubungan</h3>
-<p><b>${userColor} × ${partner}</b></p>
-<p>${res}</p>
-`;
-};
+ $("out").innerHTML=`
+ <div style="background:linear-gradient(135deg,${pal.bg},#020617);
+ border:1px solid ${pal.glow}55;border-radius:16px;padding:16px;
+ box-shadow:0 0 28px ${pal.glow}66">
+ <h3 style="color:${pal.glow}">● ${name}</h3>
+ <p>${profiles[name]}</p>
+ <p><b>💼 Rekomendasi Pekerjaan:</b></p>
+ <ul>
+ ${jobs[name].map(j=>`<li>${j}</li>`).join("")}
+ </ul>
+ </div>
+ `;
+ initRelation(name);
 }
 
-/* ====== RELASI WARNA ====== */
-const relations = {
-Merah:{
-Merah:"Ambisi tinggi, rawan ego",
-Kuning:"Aktif & hidup",
-Biru:"Terarah & mapan",
-Putih:"Adil jika mau dengar",
-Hitam:"Keras & dingin",
-Oranye:"Produktif",
-Hijau:"Pemimpin bijak",
-Ungu:"Ide besar",
-Pink:"Protektif & romantis",
-"K. Muda":"Ceria tapi timpang",
-"B. Muda":"Seimbang",
-Maroon:"Kaku tapi loyal",
-Mustard:"Benturan nilai",
-Navy:"Stabil tapi kaku"
-},
-Kuning:{
-Merah:"Dinamis",
-Kuning:"Ceria tapi chaos",
-Biru:"Kreatif tapi miskom",
-Putih:"Ringan & damai",
-Hitam:"Kuning tertekan",
-Oranye:"Hangat & aktif",
-Hijau:"Rumah suportif",
-Ungu:"Imajinatif",
-Pink:"Hangat & manja",
-"K. Muda":"Ringan & bahagia",
-"B. Muda":"Nyaman",
-Maroon:"Tradisi vs spontan",
-Mustard:"Dewasa emosional",
-Navy:"Tenang tapi datar"
-},
-Biru:{
-Merah:"Terstruktur",
-Kuning:"Logika vs emosi",
-Biru:"Stabil tapi dingin",
-Putih:"Aman & manusiawi",
-Hitam:"Disiplin ekstrem",
-Oranye:"Ide jadi nyata",
-Hijau:"Stabil & awet",
-Ungu:"Mendalam",
-Pink:"Aman tapi kurang hangat",
-"K. Muda":"Ringan",
-"B. Muda":"Tenang & seimbang",
-Maroon:"Kaku",
-Mustard:"Realistis",
-Navy:"Sangat stabil"
-},
-Hijau:{
-Merah:"Bijak",
-Kuning:"Suportif",
-Biru:"Stabil",
-Putih:"Menenangkan",
-Hitam:"Terbebani",
-Oranye:"Nyaman",
-Hijau:"Damai tapi stagnan",
-Ungu:"Empatik",
-Pink:"Aman",
-"K. Muda":"Nyaman",
-"B. Muda":"Menenangkan",
-Maroon:"Mengalah",
-Mustard:"Dewasa",
-Navy:"Awet"
-},
-Putih:{
-Merah:"Netral & adil",
-Kuning:"Damai",
-Biru:"Aman",
-Putih:"Harmonis tapi lemah arah",
-Hitam:"Mudah ditekan",
-Oranye:"Seimbang",
-Hijau:"Menenangkan",
-Ungu:"Bijak",
-Pink:"Penuh kasih",
-"K. Muda":"Ringan",
-"B. Muda":"Menenangkan",
-Maroon:"Tersisih",
-Mustard:"Bijak",
-Navy:"Aman"
+function initRelation(def){
+ ["a","b"].forEach(id=>{
+  $(id).innerHTML=Object.values(colorKey)
+   .map(c=>`<option ${c===def&&id==="a"?"selected":""}>${c}</option>`)
+   .join("");
+ });
+ showRelation();
 }
-};
+
+function showRelation(){
+ $("rel").innerText=relasiWarna($("a").value,$("b").value);
+}
 </script>
 </body>
 </html>
