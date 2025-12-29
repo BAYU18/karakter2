@@ -202,6 +202,235 @@ const profiles={
 
 };
 
+/* RELASI TABLE */
+ const relasiTable = {
+  "Merah": {
+    "Merah": "Merah × Merah: Penuh energi dan kompetitif, bisa saling memotivasi tapi perlu saling mengontrol ego.",
+    "Kuning": "Merah × Kuning: Dinamis dan kreatif, cocok saling mendorong ide baru.",
+    "Biru": "Merah × Biru: Merah cepat bertindak, Biru fokus detail; perlu kompromi untuk hasil optimal.",
+    "Hijau": "Merah × Hijau: Merah aktif, Hijau sabar; bisa saling melengkapi jika menghargai perbedaan.",
+    "Putih": "Merah × Putih: Tegas bertemu stabil; hubungan seimbang tapi butuh komunikasi.",
+    "Hitam": "Merah × Hitam: Intensitas Merah perlu menyesuaikan diri dengan Hitam yang observatif.",
+    "Oranye": "Merah × Oranye: Sama-sama energik dan kreatif, penuh semangat bersama.",
+    "Ungu": "Merah × Ungu: Praktis bertemu reflektif; belajar menghargai perspektif berbeda.",
+    "Pink": "Merah × Pink: Tegas bertemu hangat; saling melengkapi emosi dan aksi.",
+    "Navy": "Merah × Navy: Cepat bertindak bertemu disiplin; hasil optimal jika ada struktur.",
+    "Mustard": "Merah × Mustard: Spontan bertemu hati-hati; perlu kompromi strategi.",
+    "Cokelat Tua": "Merah × Cokelat Tua: Berani bertemu prinsip; saling menghormati sangat penting.",
+    "Biru Muda": "Merah × Biru Muda: Agresif bertemu menenangkan; kombinasi seimbang.",
+    "Light Yellow": "Merah × Light Yellow: Fokus bertemu fleksibel; bisa saling menginspirasi."
+  },
+  "Kuning": {
+    "Merah": "Kuning × Merah: Kreatif dan energik, saling memotivasi.",
+    "Kuning": "Kuning × Kuning: Ceria dan penuh ide; hubungan semangat tapi perlu stabilitas.",
+    "Biru": "Kuning × Biru: Spontan bertemu analitis; belajar mengimbangi ide dan fakta.",
+    "Hijau": "Kuning × Hijau: Kreatif bertemu sabar; saling menyeimbangkan emosi dan aksi.",
+    "Putih": "Kuning × Putih: Kreatif bertemu stabilitas; menghasilkan solusi seimbang.",
+    "Hitam": "Kuning × Hitam: Ekspresif bertemu observatif; komunikasi kunci.",
+    "Oranye": "Kuning × Oranye: Sama-sama ceria dan kreatif; hubungan penuh inspirasi.",
+    "Ungu": "Kuning × Ungu: Energi bertemu reflektif; saling melengkapi cara berpikir.",
+    "Pink": "Kuning × Pink: Hangat dan ceria; hubungan penuh perhatian dan semangat.",
+    "Navy": "Kuning × Navy: Fleksibel bertemu disiplin; perlu pengaturan tugas.",
+    "Mustard": "Kuning × Mustard: Kreatif bertemu hati-hati; saling belajar dari perbedaan.",
+    "Cokelat Tua": "Kuning × Cokelat Tua: Ceria bertemu prinsip; perlu saling menghormati nilai.",
+    "Biru Muda": "Kuning × Biru Muda: Ceria bertemu menenangkan; cocok untuk harmoni.",
+    "Light Yellow": "Kuning × Light Yellow: Kreatif dan fleksibel; hubungan ringan dan menyenangkan."
+  },
+  "Biru": {
+    "Merah": "Biru × Merah: Detail bertemu aksi cepat; perlu koordinasi.",
+    "Kuning": "Biru × Kuning: Analitis bertemu kreatif; saling belajar menghargai.",
+    "Biru": "Biru × Biru: Fokus dan stabil; hubungan harmonis dan konsisten.",
+    "Hijau": "Biru × Hijau: Logis bertemu sabar; hubungan damai dan seimbang.",
+    "Putih": "Biru × Putih: Fokus bertemu stabilitas; kerja sama lancar.",
+    "Hitam": "Biru × Hitam: Analitis bertemu observatif; hubungan detail dan hati-hati.",
+    "Oranye": "Biru × Oranye: Analitis bertemu kreatif; perlu kompromi ide.",
+    "Ungu": "Biru × Ungu: Fokus bertemu reflektif; cocok untuk diskusi mendalam.",
+    "Pink": "Biru × Pink: Logis bertemu hangat; saling menyeimbangkan emosi.",
+    "Navy": "Biru × Navy: Sama-sama disiplin; hubungan terstruktur dan konsisten.",
+    "Mustard": "Biru × Mustard: Analitis bertemu hati-hati; kerja sama matang.",
+    "Cokelat Tua": "Biru × Cokelat Tua: Logis bertemu prinsip; saling menghormati nilai.",
+    "Biru Muda": "Biru × Biru Muda: Detail bertemu tenang; hubungan stabil dan damai.",
+    "Light Yellow": "Biru × Light Yellow: Fokus bertemu fleksibel; belajar menyesuaikan diri."
+  },
+  "Hijau": {
+    "Merah": "Hijau × Merah: Sabar bertemu aktif; saling melengkapi jika ada pengertian.",
+    "Kuning": "Hijau × Kuning: Sabar bertemu kreatif; hubungan harmonis dan fleksibel.",
+    "Biru": "Hijau × Biru: Sabar bertemu analitis; bekerja sama lancar dan stabil.",
+    "Hijau": "Hijau × Hijau: Saling sabar dan menenangkan; hubungan damai dan konsisten.",
+    "Putih": "Hijau × Putih: Sabar bertemu stabil; cocok untuk hubungan jangka panjang.",
+    "Hitam": "Hijau × Hitam: Sabar bertemu observatif; perlu komunikasi terbuka.",
+    "Oranye": "Hijau × Oranye: Sabar bertemu kreatif; belajar menyeimbangkan energi.",
+    "Ungu": "Hijau × Ungu: Sabar bertemu reflektif; hubungan harmonis dengan pengertian.",
+    "Pink": "Hijau × Pink: Sabar bertemu hangat; saling menyeimbangkan emosi.",
+    "Navy": "Hijau × Navy: Sabar bertemu disiplin; hubungan stabil dan terstruktur.",
+    "Mustard": "Hijau × Mustard: Sabar bertemu hati-hati; kerja sama konsisten.",
+    "Cokelat Tua": "Hijau × Cokelat Tua: Sabar bertemu prinsip; saling menghormati nilai.",
+    "Biru Muda": "Hijau × Biru Muda: Sabar bertemu menenangkan; hubungan damai.",
+    "Light Yellow": "Hijau × Light Yellow: Sabar bertemu fleksibel; hubungan ringan dan nyaman."
+  },
+  "Putih": {
+    "Merah": "Putih × Merah: Stabil bertemu tegas; hubungan seimbang jika ada komunikasi.",
+    "Kuning": "Putih × Kuning: Stabil bertemu kreatif; cocok menyeimbangkan ide.",
+    "Biru": "Putih × Biru: Stabil bertemu fokus; kerja sama lancar.",
+    "Hijau": "Putih × Hijau: Stabil bertemu sabar; hubungan damai dan nyaman.",
+    "Putih": "Putih × Putih: Stabil dan konsisten; hubungan aman dan harmonis.",
+    "Hitam": "Putih × Hitam: Stabil bertemu observatif; hubungan hati-hati tapi lancar.",
+    "Oranye": "Putih × Oranye: Stabil bertemu kreatif; saling melengkapi energi.",
+    "Ungu": "Putih × Ungu: Stabil bertemu reflektif; hubungan harmonis dan tenang.",
+    "Pink": "Putih × Pink: Stabil bertemu hangat; hubungan nyaman dan suportif.",
+    "Navy": "Putih × Navy: Stabil bertemu disiplin; kerja sama efisien dan terstruktur.",
+    "Mustard": "Putih × Mustard: Stabil bertemu hati-hati; hubungan aman dan matang.",
+    "Cokelat Tua": "Putih × Cokelat Tua: Stabil bertemu prinsip; hubungan kuat dan terhormat.",
+    "Biru Muda": "Putih × Biru Muda: Stabil bertemu menenangkan; hubungan damai dan harmonis.",
+    "Light Yellow": "Putih × Light Yellow: Stabil bertemu fleksibel; hubungan nyaman dan ringan."
+  },
+  "Hitam": {
+    "Merah": "Hitam × Merah: Observatif bertemu aktif; perlu menyesuaikan intensitas.",
+    "Kuning": "Hitam × Kuning: Observatif bertemu kreatif; komunikasi penting untuk harmoni.",
+    "Biru": "Hitam × Biru: Observatif bertemu analitis; kerja sama hati-hati dan detail.",
+    "Hijau": "Hitam × Hijau: Observatif bertemu sabar; hubungan stabil tapi perlu keterbukaan.",
+    "Putih": "Hitam × Putih: Observatif bertemu stabil; hubungan hati-hati dan aman.",
+    "Hitam": "Hitam × Hitam: Sangat waspada dan analitis; hubungan sangat berhati-hati tapi konsisten.",
+    "Oranye": "Hitam × Oranye: Observatif bertemu kreatif; perlu kompromi ide.",
+    "Ungu": "Hitam × Ungu: Observatif bertemu reflektif; cocok untuk hubungan mendalam.",
+    "Pink": "Hitam × Pink: Observatif bertemu hangat; belajar menyeimbangkan emosi.",
+    "Navy": "Hitam × Navy: Observatif bertemu disiplin; hubungan stabil dan terstruktur.",
+    "Mustard": "Hitam × Mustard: Observatif bertemu hati-hati; hubungan hati-hati dan konsisten.",
+    "Cokelat Tua": "Hitam × Cokelat Tua: Observatif bertemu prinsip; saling menghormati nilai.",
+    "Biru Muda": "Hitam × Biru Muda: Observatif bertemu menenangkan; hubungan aman dan damai.",
+    "Light Yellow": "Hitam × Light Yellow: Observatif bertemu fleksibel; perlu adaptasi."
+  },
+  "Oranye": {
+    "Merah": "Oranye × Merah: Kreatif dan energik; hubungan penuh semangat.",
+    "Kuning": "Oranye × Kuning: Sama-sama kreatif; hubungan inspiratif dan ceria.",
+    "Biru": "Oranye × Biru: Kreatif bertemu analitis; perlu kompromi ide.",
+    "Hijau": "Oranye × Hijau: Kreatif bertemu sabar; belajar menyeimbangkan energi.",
+    "Putih": "Oranye × Putih: Kreatif bertemu stabil; hubungan harmonis.",
+    "Hitam": "Oranye × Hitam: Kreatif bertemu observatif; perlu komunikasi jelas.",
+    "Oranye": "Oranye × Oranye: Sama-sama energik dan kreatif; hubungan penuh semangat.",
+    "Ungu": "Oranye × Ungu: Kreatif bertemu reflektif; saling melengkapi ide.",
+    "Pink": "Oranye × Pink: Kreatif bertemu hangat; hubungan penuh energi positif.",
+    "Navy": "Oranye × Navy: Kreatif bertemu disiplin; perlu pengaturan dan struktur.",
+    "Mustard": "Oranye × Mustard: Kreatif bertemu hati-hati; belajar menyeimbangkan spontanitas.",
+    "Cokelat Tua": "Oranye × Cokelat Tua: Kreatif bertemu prinsip; hubungan stabil jika saling menghormati.",
+    "Biru Muda": "Oranye × Biru Muda: Kreatif bertemu menenangkan; hubungan harmonis.",
+    "Light Yellow": "Oranye × Light Yellow: Kreatif bertemu fleksibel; hubungan menyenangkan dan ringan."
+  },
+  "Ungu": {
+    "Merah": "Ungu × Merah: Reflektif bertemu praktis; perlu kompromi aksi dan pemikiran.",
+    "Kuning": "Ungu × Kuning: Reflektif bertemu kreatif; saling melengkapi ide.",
+    "Biru": "Ungu × Biru: Reflektif bertemu analitis; cocok untuk diskusi mendalam.",
+    "Hijau": "Ungu × Hijau: Reflektif bertemu sabar; hubungan harmonis.",
+    "Putih": "Ungu × Putih: Reflektif bertemu stabil; hubungan tenang dan aman.",
+    "Hitam": "Ungu × Hitam: Reflektif bertemu observatif; hubungan hati-hati tapi stabil.",
+    "Oranye": "Ungu × Oranye: Reflektif bertemu kreatif; saling melengkapi energi dan ide.",
+    "Ungu": "Ungu × Ungu: Reflektif bertemu reflektif; hubungan dalam dan penuh pemikiran.",
+    "Pink": "Ungu × Pink: Reflektif bertemu hangat; belajar menyeimbangkan emosi.",
+    "Navy": "Ungu × Navy: Reflektif bertemu disiplin; hubungan fokus dan konsisten.",
+    "Mustard": "Ungu × Mustard: Reflektif bertemu hati-hati; hubungan matang dan penuh pertimbangan.",
+    "Cokelat Tua": "Ungu × Cokelat Tua: Reflektif bertemu prinsip; saling menghormati nilai.",
+    "Biru Muda": "Ungu × Biru Muda: Reflektif bertemu menenangkan; hubungan damai dan tenang.",
+    "Light Yellow": "Ungu × Light Yellow: Reflektif bertemu fleksibel; hubungan nyaman dan ringan."
+  },
+  "Pink": {
+    "Merah": "Pink × Merah: Hangat bertemu tegas; saling melengkapi emosi dan aksi.",
+    "Kuning": "Pink × Kuning: Hangat bertemu kreatif; hubungan penuh perhatian dan semangat.",
+    "Biru": "Pink × Biru: Hangat bertemu analitis; menyeimbangkan logika dan emosi.",
+    "Hijau": "Pink × Hijau: Hangat bertemu sabar; hubungan harmonis dan damai.",
+    "Putih": "Pink × Putih: Hangat bertemu stabil; hubungan nyaman dan suportif.",
+    "Hitam": "Pink × Hitam: Hangat bertemu observatif; belajar menyesuaikan diri.",
+    "Oranye": "Pink × Oranye: Hangat bertemu kreatif; hubungan menyenangkan dan energik.",
+    "Ungu": "Pink × Ungu: Hangat bertemu reflektif; saling menyeimbangkan emosi dan pemikiran.",
+    "Pink": "Pink × Pink: Hangat dan empatik; hubungan penuh perhatian dan kasih sayang.",
+    "Navy": "Pink × Navy: Hangat bertemu disiplin; hubungan stabil dan suportif.",
+    "Mustard": "Pink × Mustard: Hangat bertemu hati-hati; belajar menyesuaikan diri.",
+    "Cokelat Tua": "Pink × Cokelat Tua: Hangat bertemu prinsip; hubungan menghormati nilai dan perasaan.",
+    "Biru Muda": "Pink × Biru Muda: Hangat bertemu menenangkan; hubungan harmonis dan stabil.",
+    "Light Yellow": "Pink × Light Yellow: Hangat bertemu fleksibel; hubungan nyaman dan ringan."
+  },
+  "Navy": {
+    "Merah": "Navy × Merah: Disiplin bertemu cepat; hasil maksimal jika ada struktur.",
+    "Kuning": "Navy × Kuning: Disiplin bertemu kreatif; perlu pengaturan tugas.",
+    "Biru": "Navy × Biru: Disiplin bertemu fokus; hubungan terstruktur dan konsisten.",
+    "Hijau": "Navy × Hijau: Disiplin bertemu sabar; hubungan stabil dan damai.",
+    "Putih": "Navy × Putih: Disiplin bertemu stabil; kerja sama efisien.",
+    "Hitam": "Navy × Hitam: Disiplin bertemu observatif; hubungan konsisten dan hati-hati.",
+    "Oranye": "Navy × Oranye: Disiplin bertemu kreatif; perlu pengaturan dan kompromi.",
+    "Ungu": "Navy × Ungu: Disiplin bertemu reflektif; hubungan stabil dan produktif.",
+    "Pink": "Navy × Pink: Disiplin bertemu hangat; hubungan stabil dan suportif.",
+    "Navy": "Navy × Navy: Sangat disiplin; hubungan sangat terstruktur dan konsisten.",
+    "Mustard": "Navy × Mustard: Disiplin bertemu hati-hati; kerja sama konsisten dan aman.",
+    "Cokelat Tua": "Navy × Cokelat Tua: Disiplin bertemu prinsip; hubungan terhormat dan stabil.",
+    "Biru Muda": "Navy × Biru Muda: Disiplin bertemu menenangkan; hubungan stabil dan damai.",
+    "Light Yellow": "Navy × Light Yellow: Disiplin bertemu fleksibel; belajar menyesuaikan diri."
+  },
+  "Mustard": {
+    "Merah": "Mustard × Merah: Hati-hati bertemu cepat; perlu kompromi strategi.",
+    "Kuning": "Mustard × Kuning: Hati-hati bertemu kreatif; saling belajar dari cara berbeda.",
+    "Biru": "Mustard × Biru: Hati-hati bertemu analitis; kerja sama matang dan detail.",
+    "Hijau": "Mustard × Hijau: Hati-hati bertemu sabar; hubungan stabil dan konsisten.",
+    "Putih": "Mustard × Putih: Hati-hati bertemu stabil; hubungan aman dan matang.",
+    "Hitam": "Mustard × Hitam: Hati-hati bertemu observatif; hubungan konsisten dan hati-hati.",
+    "Oranye": "Mustard × Oranye: Hati-hati bertemu kreatif; belajar menyeimbangkan spontanitas.",
+    "Ungu": "Mustard × Ungu: Hati-hati bertemu reflektif; hubungan matang dan penuh pertimbangan.",
+    "Pink": "Mustard × Pink: Hati-hati bertemu hangat; belajar menyesuaikan diri.",
+    "Navy": "Mustard × Navy: Hati-hati bertemu disiplin; kerja sama aman dan konsisten.",
+    "Mustard": "Mustard × Mustard: Hati-hati dan teliti; hubungan stabil dan penuh pertimbangan.",
+    "Cokelat Tua": "Mustard × Cokelat Tua: Hati-hati bertemu prinsip; saling menghormati nilai.",
+    "Biru Muda": "Mustard × Biru Muda: Hati-hati bertemu menenangkan; hubungan aman dan damai.",
+    "Light Yellow": "Mustard × Light Yellow: Hati-hati bertemu fleksibel; hubungan nyaman dan ringan."
+  },
+  "Cokelat Tua": {
+    "Merah": "Cokelat Tua × Merah: Prinsip bertemu berani; saling menghormati sangat penting.",
+    "Kuning": "Cokelat Tua × Kuning: Prinsip bertemu kreatif; hubungan perlu menghormati nilai masing-masing.",
+    "Biru": "Cokelat Tua × Biru: Prinsip bertemu analitis; kerja sama matang dan konsisten.",
+    "Hijau": "Cokelat Tua × Hijau: Prinsip bertemu sabar; hubungan stabil dan harmonis.",
+    "Putih": "Cokelat Tua × Putih: Prinsip bertemu stabil; hubungan aman dan nyaman.",
+    "Hitam": "Cokelat Tua × Hitam: Prinsip bertemu observatif; hubungan penuh perhitungan.",
+    "Oranye": "Cokelat Tua × Oranye: Prinsip bertemu kreatif; perlu menghormati nilai dan ide.",
+    "Ungu": "Cokelat Tua × Ungu: Prinsip bertemu reflektif; hubungan matang dan harmonis.",
+    "Pink": "Cokelat Tua × Pink: Prinsip bertemu hangat; saling menghormati nilai dan perasaan.",
+    "Navy": "Cokelat Tua × Navy: Prinsip bertemu disiplin; hubungan stabil dan terhormat.",
+    "Mustard": "Cokelat Tua × Mustard: Prinsip bertemu hati-hati; hubungan aman dan konsisten.",
+    "Cokelat Tua": "Cokelat Tua × Cokelat Tua: Berpegang pada prinsip; hubungan stabil dan kuat.",
+    "Biru Muda": "Cokelat Tua × Biru Muda: Prinsip bertemu menenangkan; hubungan damai dan harmonis.",
+    "Light Yellow": "Cokelat Tua × Light Yellow: Prinsip bertemu fleksibel; hubungan nyaman tapi tetap terhormat."
+  },
+  "Biru Muda": {
+    "Merah": "Biru Muda × Merah: Tenang bertemu aktif; saling melengkapi energi dan ketenangan.",
+    "Kuning": "Biru Muda × Kuning: Tenang bertemu kreatif; hubungan harmonis dan nyaman.",
+    "Biru": "Biru Muda × Biru: Tenang dan fokus; hubungan damai dan stabil.",
+    "Hijau": "Biru Muda × Hijau: Tenang bertemu sabar; hubungan harmonis dan damai.",
+    "Putih": "Biru Muda × Putih: Tenang bertemu stabil; hubungan nyaman dan seimbang.",
+    "Hitam": "Biru Muda × Hitam: Tenang bertemu observatif; hubungan aman dan penuh pertimbangan.",
+    "Oranye": "Biru Muda × Oranye: Tenang bertemu kreatif; saling melengkapi energi dan ketenangan.",
+    "Ungu": "Biru Muda × Ungu: Tenang bertemu reflektif; hubungan damai dan harmonis.",
+    "Pink": "Biru Muda × Pink: Tenang bertemu hangat; hubungan stabil dan suportif.",
+    "Navy": "Biru Muda × Navy: Tenang bertemu disiplin; hubungan harmonis dan konsisten.",
+    "Mustard": "Biru Muda × Mustard: Tenang bertemu hati-hati; hubungan aman dan konsisten.",
+    "Cokelat Tua": "Biru Muda × Cokelat Tua: Tenang bertemu prinsip; hubungan damai dan harmonis.",
+    "Biru Muda": "Biru Muda × Biru Muda: Tenang dan menenangkan; hubungan sangat stabil dan nyaman.",
+    "Light Yellow": "Biru Muda × Light Yellow: Tenang bertemu fleksibel; hubungan ringan dan harmonis."
+  },
+  "Light Yellow": {
+    "Merah": "Light Yellow × Merah: Fleksibel bertemu fokus; saling menginspirasi.",
+    "Kuning": "Light Yellow × Kuning: Fleksibel bertemu kreatif; hubungan ringan dan menyenangkan.",
+    "Biru": "Light Yellow × Biru: Fleksibel bertemu fokus; belajar menyesuaikan diri.",
+    "Hijau": "Light Yellow × Hijau: Fleksibel bertemu sabar; hubungan nyaman dan damai.",
+    "Putih": "Light Yellow × Putih: Fleksibel bertemu stabil; hubungan aman dan ringan.",
+    "Hitam": "Light Yellow × Hitam: Fleksibel bertemu observatif; perlu komunikasi terbuka.",
+    "Oranye": "Light Yellow × Oranye: Fleksibel bertemu kreatif; hubungan menyenangkan dan ringan.",
+    "Ungu": "Light Yellow × Ungu: Fleksibel bertemu reflektif; hubungan nyaman dan harmonis.",
+    "Pink": "Light Yellow × Pink: Fleksibel bertemu hangat; hubungan ringan dan menyenangkan.",
+    "Navy": "Light Yellow × Navy: Fleksibel bertemu disiplin; perlu menyesuaikan ritme.",
+    "Mustard": "Light Yellow × Mustard: Fleksibel bertemu hati-hati; hubungan ringan dan aman.",
+    "Cokelat Tua": "Light Yellow × Cokelat Tua: Fleksibel bertemu prinsip; hubungan nyaman tapi tetap terhormat.",
+    "Biru Muda": "Light Yellow × Biru Muda: Fleksibel bertemu menenangkan; hubungan ringan dan harmonis.",
+    "Light Yellow": "Light Yellow × Light Yellow: Sangat fleksibel dan ringan; hubungan menyenangkan dan santai."
+  }
+};
+
+ 
 const jobs={
  "Merah":["Manajer","Entrepreneur","Project Leader","Sales Executive"],
  "Kuning":["Public Relations","Content Creator","Event Organizer","Marketing"],
@@ -219,9 +448,9 @@ const jobs={
  "Navy":["Militer","Manajer Operasional","Logistik","PNS"]
 };
 
-function relasiWarna(A,B){
- if(A===B) return `${A} × ${B}: sangat harmonis.`;
- return `${A} × ${B}: potensi berkembang tergantung komunikasi.`;
+function relasiWarna(A, B){
+  if(relasiTable[A] && relasiTable[A][B]) return relasiTable[A][B];
+  return `${A} × ${B}: Relasi ini unik, perlu komunikasi dan pengertian.`;
 }
 
 /* ===== SCORE ===== */
